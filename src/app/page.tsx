@@ -32,7 +32,7 @@ export default function Home() {
 
       {/* Top section */}
       <div className="flex justify-center items-center w-screen h-60 gap-10">
-        <button className="absolute mb-20 mr-40" onClick={() => scrollToSection(section1Ref)}>
+        <button className="absolute mb-20 mr-40 animate-bounce" onClick={() => scrollToSection(section1Ref)}>
           Icon 1
         </button>
         <button className="absolute mb-40 ml-32" onClick={() => scrollToSection(section2Ref)}>
