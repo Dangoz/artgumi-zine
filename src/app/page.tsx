@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import TestSection from '@/components/TestSection'
+import SideNav from '@/components/SideNav'
 
 export default function Home() {
   const [num, setNum] = useState<number | undefined>()
@@ -22,6 +23,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
+      <SideNav
+        scrollToOne={() => scrollToSection(section1Ref)}
+        scrollToTwo={() => scrollToSection(section2Ref)}
+        scrollToThree={() => scrollToSection(section3Ref)}
+        scrollToFour={() => scrollToSection(section4Ref)}
+      />
+
       {/* Top section */}
       <div className="flex justify-center items-center w-screen h-60 gap-10">
         <button onClick={() => scrollToSection(section1Ref)}>Icon 1</button>
