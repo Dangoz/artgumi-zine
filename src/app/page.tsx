@@ -32,11 +32,19 @@ export default function Home() {
 
       {/* Top section */}
       <div className="flex justify-center items-center w-screen h-60 gap-10">
-        <button onClick={() => scrollToSection(section1Ref)}>Icon 1</button>
-        <button onClick={() => scrollToSection(section2Ref)}>Icon 2</button>
+        <button className="absolute mb-20 mr-40" onClick={() => scrollToSection(section1Ref)}>
+          Icon 1
+        </button>
+        <button className="absolute mb-40 ml-32" onClick={() => scrollToSection(section2Ref)}>
+          Icon 2
+        </button>
         <Image alt="logo" src="/artgumi-tiger.png" width={100} height={100} />
-        <button onClick={() => scrollToSection(section3Ref)}>Icon 3</button>
-        <button onClick={() => scrollToSection(section4Ref)}>Icon 4</button>
+        <button className="absolute mt-20 mr-32" onClick={() => scrollToSection(section3Ref)}>
+          Icon 3
+        </button>
+        <button className="absolute mt-40 ml-20" onClick={() => scrollToSection(section4Ref)}>
+          Icon 4
+        </button>
       </div>
 
       {/* section 1 */}
