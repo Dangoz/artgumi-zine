@@ -46,9 +46,9 @@ const SideNav = ({ sections }: SideNavProps) => {
     // fixed side nav for transitioning between sections
     <div
       className={clsx(
-        'fixed left-1 top-1/2 rounded-2xl pt-0.5 pb-0.5 backdrop-blur-sm backdrop-filter',
-        'border-gray-600 border-2',
-        'flex flex-col justify-evenly items-center gap-2 bg-black/30',
+        'fixed left-1 top-1/2 rounded-2xl pt-1 pb-1 backdrop-blur-sm backdrop-filter',
+        'border-black/50 border-[1px]',
+        'flex flex-col justify-evenly items-center gap-1.5 bg-black/60',
       )}
     >
       <Component1Icon
