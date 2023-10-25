@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import TestSection from '@/components/TestSection'
 import SideNav from '@/components/navigation/SideNav'
 import Intro from '@/components/sections/Intro'
 import Note from '@/components/sections/Note'
