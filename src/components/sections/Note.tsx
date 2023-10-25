@@ -4,7 +4,7 @@ type NoteProps = {}
 
 const Note = React.forwardRef<HTMLDivElement, NoteProps>((props, ref) => {
   return (
-    <div ref={ref} className="w-screen h-[500px] bg-white text-black">
+    <div ref={ref} className="w-screen h-[500px] bg-black text-black">
       Note
     </div>
   )

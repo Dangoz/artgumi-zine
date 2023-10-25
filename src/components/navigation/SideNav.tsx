@@ -46,36 +46,36 @@ const SideNav = ({ sections }: SideNavProps) => {
     // fixed side nav for transitioning between sections
     <div
       className={clsx(
-        'fixed left-1 top-1/2 rounded-2xl pt-0 pb-0',
-        'border-gray-600 bg-pink-50 border-2',
-        'flex flex-col justify-evenly items-center gap-2',
+        'fixed left-1 top-1/2 rounded-2xl pt-0.5 pb-0.5 backdrop-blur-sm backdrop-filter',
+        'border-gray-600 border-2',
+        'flex flex-col justify-evenly items-center gap-2 bg-black/30',
       )}
     >
       <Component1Icon
         className={clsx(
-          'w-6 h-6 p-1 text-gray-700 cursor-pointer rounded-full',
-          activeSection === 0 && 'bg-red-300 text-red-700',
+          'w-6 h-6 p-1 text-white/50 cursor-pointer rounded-full',
+          activeSection === 0 && 'text-white/100',
         )}
         onClick={() => scrollToSection(sections[0])}
       />
       <Component2Icon
         className={clsx(
-          'w-6 h-6 p-1 text-gray-700 cursor-pointer rounded-full',
-          activeSection === 1 && 'bg-red-300 text-red-700',
+          'w-6 h-6 p-1 text-white/50 cursor-pointer rounded-full',
+          activeSection === 1 && 'text-white/100',
         )}
         onClick={() => scrollToSection(sections[1])}
       />
       <SunIcon
         className={clsx(
-          'w-6 h-6 p-1 text-gray-700 cursor-pointer rounded-full',
-          activeSection === 2 && 'bg-red-300 text-red-700',
+          'w-6 h-6 p-1 text-white/50 cursor-pointer rounded-full',
+          activeSection === 2 && 'text-white/100',
         )}
         onClick={() => scrollToSection(sections[2])}
       />
       <MoonIcon
         className={clsx(
-          'w-6 h-6 p-1 text-gray-700 cursor-pointer rounded-full',
-          activeSection === 3 && 'bg-red-300 text-red-700',
+          'w-6 h-6 p-1 text-white/50 cursor-pointer rounded-full',
+          activeSection === 3 && 'text-white/100',
         )}
         onClick={() => scrollToSection(sections[3])}
       />
