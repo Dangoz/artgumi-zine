@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { Component1Icon, Component2Icon, SunIcon, MoonIcon } from '@radix-ui/react-icons'
 import { scrollToSection } from '@/lib/util'
@@ -8,19 +10,75 @@ type SideNavProps = {
 }
 
 const SideNav = ({ sections }: SideNavProps) => {
+  const [activeSection, setActiveSection] = useState<number | null>(null)
+
+  useEffect(() => {
+    // check if all sections have been referenced
+    const nullSections = sections.filter((section) => section.current === null)
+    if (nullSections.length > 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = sections.findIndex((section) => section.current === entry.target)
+            console.log(`current index: ${index}`)
+            console.log(entry.target)
+            setActiveSection(index)
+          }
+        })
+      },
+      {
+        threshold: 0.5, // Configure observer to trigger when 50% of element is in view
+      },
+    )
+
+    // Start observing each element/component
+    sections.forEach((section) => {
+      if (section.current) observer.observe(section.current)
+    })
+
+    // Cleanup observer on component unmount
+    return () => observer.disconnect()
+  }, [sections])
+
   return (
-    // a fixed vertical side nav on the left middle of the browser window
+    // fixed side nav for transitioning between sections
     <div
       className={clsx(
-        'fixed left-0 top-1/2 ml-4 rounded-xl w-10 h-32',
+        'fixed left-1 top-1/2 rounded-2xl pt-0 pb-0',
         'border-gray-600 bg-pink-50 border-2',
-        'flex flex-col justify-evenly items-center gap-1',
+        'flex flex-col justify-evenly items-center gap-2',
       )}
     >
-      <Component1Icon className="w-4 h-4 text-black cursor-pointer" onClick={() => scrollToSection(sections[0])} />
-      <Component2Icon className="w-4 h-4 text-black cursor-pointer" onClick={() => scrollToSection(sections[1])} />
-      <SunIcon className="w-4 h-4 text-black cursor-pointer" onClick={() => scrollToSection(sections[2])} />
-      <MoonIcon className="w-4 h-4 text-black cursor-pointer" onClick={() => scrollToSection(sections[3])} />
+      <Component1Icon
+        className={clsx(
+          'w-6 h-6 p-1 text-gray-700 cursor-pointer rounded-full',
+          activeSection === 0 && 'bg-red-300 text-red-700',
+        )}
+        onClick={() => scrollToSection(sections[0])}
+      />
+      <Component2Icon
+        className={clsx(
+          'w-6 h-6 p-1 text-gray-700 cursor-pointer rounded-full',
+          activeSection === 1 && 'bg-red-300 text-red-700',
+        )}
+        onClick={() => scrollToSection(sections[1])}
+      />
+      <SunIcon
+        className={clsx(
+          'w-6 h-6 p-1 text-gray-700 cursor-pointer rounded-full',
+          activeSection === 2 && 'bg-red-300 text-red-700',
+        )}
+        onClick={() => scrollToSection(sections[2])}
+      />
+      <MoonIcon
+        className={clsx(
+          'w-6 h-6 p-1 text-gray-700 cursor-pointer rounded-full',
+          activeSection === 3 && 'bg-red-300 text-red-700',
+        )}
+        onClick={() => scrollToSection(sections[3])}
+      />
     </div>
   )
 }
