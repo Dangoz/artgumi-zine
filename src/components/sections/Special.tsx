@@ -1,19 +1,20 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect, useState, Suspense } from 'react'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { artists } from '@/models/artists'
+import type { Artist } from '@/models/artists'
 
 type SpecialProps = {}
 
 const Special = React.forwardRef<HTMLDivElement, SpecialProps>((props, ref) => {
-  // re-arrange the order of artists randomly on each page load
-  const shuffledArtists = useMemo(() => {
+  const [shuffledArtists, setShuffledArtists] = useState<Artist[]>([])
+  useEffect(() => {
     const artistsCopy = [...artists]
     for (let i = artistsCopy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
       ;[artistsCopy[i], artistsCopy[j]] = [artistsCopy[j], artistsCopy[i]]
     }
-    return artistsCopy
+    setShuffledArtists(artistsCopy)
   }, [])
 
   return (
