@@ -14,6 +14,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   const [carouselCenteredHeight, setCarouselCenteredHeight] = useState<number>(0)
   const [isCarouselActive, setIsCarouselActive] = useState<boolean>(false)
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
+  const [carouselIndexAnchor, setCarouselIndexAnchor] = useState<number>(4)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -60,7 +61,10 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     if (carouselCenteredHeight === 0) return
 
     const handleScroll = (event: WheelEvent) => {
-      if (window.scrollY >= carouselCenteredHeight) {
+      if (
+        (window.scrollY > carouselCenteredHeight && currentCarouselIndex === 0 && carouselIndexAnchor === 4) ||
+        (window.scrollY < carouselCenteredHeight && currentCarouselIndex === 4 && carouselIndexAnchor === 0)
+      ) {
         // console.log('REACHEEED', window.scrollY, window.scrollX)
 
         // disable default scroll behavior
@@ -74,7 +78,19 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
           window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
         }
 
-        // console.log('delta', event.deltaX, event.deltaY)
+        // scrollTo
+        // if (carouselRef.current) {
+        //   const itemWidth = 600;  // Adjust this value to match the actual width of your carousel items
+        //   const direction = event.deltaY > 0 ? 1 : -1;
+        //   const newIndex = currentCarouselIndex + direction;
+        //   if (newIndex >= 0 && newIndex < artists.length) {
+        //     carouselRef.current.scrollTo({
+        //       left: newIndex * itemWidth,
+        //       behavior: 'smooth'
+        //     });
+        //     setCurrentCarouselIndex(newIndex);  // Update the current index state
+        //   }
+        // }
       }
     }
 
@@ -82,7 +98,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
 
     // Cleanup event listener on component unmount
     return () => window.removeEventListener('wheel', handleScroll)
-  }, [carouselCenteredHeight, isCarouselActive])
+  }, [carouselCenteredHeight, isCarouselActive, carouselIndexAnchor, currentCarouselIndex])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -111,15 +127,35 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     return () => observer.disconnect()
   }, [shuffledArtists])
 
+  useEffect(() => {
+    // when anchor is on the last item and when user scrolls to the last item
+    if (carouselIndexAnchor === artists.length - 1 && currentCarouselIndex === artists.length - 1) {
+      // release default scroll behavior
+      document.body.style.overflow = ''
+
+      // set anchor to the first item
+      setCarouselIndexAnchor(0)
+    }
+
+    // when anchor is on the first item and when user scrolls to the first item
+    if (carouselIndexAnchor === 0 && currentCarouselIndex === 0) {
+      // release default scroll behavior
+      document.body.style.overflow = ''
+
+      // set anchor to the last item
+      setCarouselIndexAnchor(artists.length - 1)
+    }
+  }, [currentCarouselIndex, carouselIndexAnchor, shuffledArtists])
+
   return (
     <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', 'flex flex-col justify-center')}>
-      Special - {isCarouselActive && 'active'} - {currentCarouselIndex}
+      Special - {isCarouselActive && 'active'} - {currentCarouselIndex} - {carouselIndexAnchor}
       {/* carousel */}
       <div
         ref={carouselRef}
         className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-x')}
       >
-        <div key={0} className="w-[500px] h-[500px] bg-none animate-pulse shrink-0 blur-sm" />
+        <div key={0} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm" />
         {shuffledArtists.length
           ? shuffledArtists.map((artist, index) => (
               <div
@@ -130,19 +166,19 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                 <Image
                   alt={artist.name}
                   src={artist.artworkPath}
-                  width={800}
-                  height={500}
-                  className="h-[800px] w-atuo object-contain"
+                  width={600}
+                  height={600}
+                  className="h-[600px] w-atuo object-contain"
                 />
               </div>
             ))
           : [...Array(artists.length)].map((_, index) => (
               <div
                 key={index + 1}
-                className="w-[500px] h-[500px] bg-gray-300 animate-pulse shrink-0 blur-sm snap-center"
+                className="w-[600px] h-[600px] bg-gray-300 animate-pulse shrink-0 blur-sm snap-center"
               />
             ))}
-        <div key={shuffledArtists.length + 1} className="w-[500px] h-[500px] bg-none animate-pulse shrink-0 blur-sm" />
+        <div key={shuffledArtists.length + 1} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm" />
       </div>
     </div>
   )
