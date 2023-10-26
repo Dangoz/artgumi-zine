@@ -1,6 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import clsx from 'clsx'
-import { Cross2Icon } from '@radix-ui/react-icons'
+import { X } from 'lucide-react'
 
 interface DialogProps {
   children: React.ReactNode
@@ -30,7 +30,7 @@ const Modal: React.FC<DialogProps> = ({ children, open, setOpen, blur = undefine
             <Dialog.Description />
             {close && (
               <Dialog.Close className="absolute top-0 right-0 m-14 p-2">
-                <Cross2Icon className="w-6 h-6" />
+                <X className="w-6 h-6" />
               </Dialog.Close>
             )}
           </Dialog.Content>

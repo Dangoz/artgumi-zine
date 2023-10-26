@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
-import { Component1Icon, Component2Icon, SunIcon, MoonIcon } from '@radix-ui/react-icons'
+import { Sparkles, Flower, ScrollText, Cat } from 'lucide-react'
 import { scrollToSection } from '@/lib/util'
 
 type SideNavProps = {
@@ -51,31 +51,31 @@ const SideNav = ({ sections }: SideNavProps) => {
         'flex flex-col justify-evenly items-center gap-1.5 bg-black/60',
       )}
     >
-      <Component1Icon
+      <ScrollText
         className={clsx(
-          'w-6 h-6 p-1 text-white/50 cursor-pointer rounded-full',
-          activeSection === 0 && 'text-white/100',
+          'w-6 h-6 p-1 cursor-pointer rounded-full',
+          activeSection === 0 ? 'text-white/100' : 'text-white/50',
         )}
         onClick={() => scrollToSection(sections[0])}
       />
-      <Component2Icon
+      <Flower
         className={clsx(
-          'w-6 h-6 p-1 text-white/50 cursor-pointer rounded-full',
-          activeSection === 1 && 'text-white/100',
+          'w-6 h-6 p-1 cursor-pointer rounded-full',
+          activeSection === 1 ? 'text-white/100' : 'text-white/50',
         )}
         onClick={() => scrollToSection(sections[1])}
       />
-      <SunIcon
+      <Sparkles
         className={clsx(
-          'w-6 h-6 p-1 text-white/50 cursor-pointer rounded-full',
-          activeSection === 2 && 'text-white/100',
+          'w-6 h-6 p-1 cursor-pointer rounded-full',
+          activeSection === 2 ? 'text-white/100' : 'text-white/50',
         )}
         onClick={() => scrollToSection(sections[2])}
       />
-      <MoonIcon
+      <Cat
         className={clsx(
-          'w-6 h-6 p-1 text-white/50 cursor-pointer rounded-full',
-          activeSection === 3 && 'text-white/100',
+          'w-6 h-6 p-1 cursor-pointer rounded-full',
+          activeSection === 3 ? 'text-white/100' : 'text-white/50',
         )}
         onClick={() => scrollToSection(sections[3])}
       />
