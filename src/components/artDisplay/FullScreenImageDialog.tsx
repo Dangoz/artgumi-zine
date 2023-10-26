@@ -8,20 +8,21 @@ type FullscreenImageDialogProps = {
 }
 
 const FullscreenImageDialog: React.FC<FullscreenImageDialogProps> = ({ src, alt, open, onClose }) => {
-  const dialogRef = React.useRef(null)
+  const dialogRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
     if (open && dialogRef.current) {
       const element = dialogRef.current
       if (element.requestFullscreen) {
         element.requestFullscreen()
-      } else if (element.mozRequestFullScreen) {
-        element.mozRequestFullScreen()
-      } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen()
-      } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen()
       }
+      // else if (element.mozRequestFullScreen) {
+      //   element.mozRequestFullScreen()
+      // } else if (element.webkitRequestFullscreen) {
+      //   element.webkitRequestFullscreen()
+      // } else if (element.msRequestFullscreen) {
+      //   element.msRequestFullscreen()
+      // }
     }
   }, [open])
 
