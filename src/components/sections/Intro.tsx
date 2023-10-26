@@ -8,7 +8,10 @@ type IntroProps = {
 
 const Intro = React.forwardRef<HTMLDivElement, IntroProps>(({ sections }, ref) => {
   return (
-    <div ref={ref} className="flex justify-center items-center w-screen h-60 gap-10">
+    <div
+      ref={ref}
+      className="flex justify-center items-center w-screen h-screen bg-[url('/assets/intro/intro-background.png')] bg-no-repeat bg-cover"
+    >
       <button className="absolute mb-20 mr-40 animate-bounce" onClick={() => scrollToSection(sections[0])}>
         Icon 1
       </button>
