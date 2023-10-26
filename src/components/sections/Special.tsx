@@ -128,7 +128,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   }, [shuffledArtists])
 
   useEffect(() => {
-    // when anchor is on the last item and when user scrolls to the last item
+    // when anchor is on the last item and user scrolls to the last item
     if (carouselIndexAnchor === artists.length - 1 && currentCarouselIndex === artists.length - 1) {
       // release default scroll behavior
       document.body.style.overflow = ''
@@ -137,7 +137,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
       setCarouselIndexAnchor(0)
     }
 
-    // when anchor is on the first item and when user scrolls to the first item
+    // when anchor is on the first item and user scrolls to the first item
     if (carouselIndexAnchor === 0 && currentCarouselIndex === 0) {
       // release default scroll behavior
       document.body.style.overflow = ''
@@ -145,6 +145,8 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
       // set anchor to the last item
       setCarouselIndexAnchor(artists.length - 1)
     }
+
+    // when anchor is on the last item and user
   }, [currentCarouselIndex, carouselIndexAnchor, shuffledArtists])
 
   return (
@@ -161,7 +163,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
               <div
                 key={index + 1}
                 id={artist.name}
-                className="flex flex-col justify-center items-center shrink-0 bg-red-300 snap-center carousel-item"
+                className="flex flex-col justify-center items-center shrink-0 bg-red-0 snap-center carousel-item"
               >
                 <Image
                   alt={artist.name}
