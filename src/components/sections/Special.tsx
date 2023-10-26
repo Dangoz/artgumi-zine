@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState, useRef } from 'react'
+import React, { useMemo, useEffect, useState, useRef, useCallback } from 'react'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { artists } from '@/models/artists'
@@ -13,7 +13,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   const [shuffledArtists, setShuffledArtists] = useState<Artist[]>([])
   const [carouselCenteredHeight, setCarouselCenteredHeight] = useState<number>(0)
   const [isCarouselActive, setIsCarouselActive] = useState<boolean>(false)
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(1)
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -59,9 +59,9 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   useEffect(() => {
     if (carouselCenteredHeight === 0) return
 
-    const handleScroll = (e: WheelEvent) => {
+    const handleScroll = (event: WheelEvent) => {
       if (window.scrollY >= carouselCenteredHeight) {
-        console.log('REACHEEED', window.scrollY)
+        // console.log('REACHEEED', window.scrollY, window.scrollX)
 
         // disable default scroll behavior
         document.body.style.overflow = 'hidden'
@@ -74,12 +74,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
           window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
         }
 
-        // instead scroll will scroll to the next item in the carousel (scroll-snap)
-        if (carouselRef.current) {
-          carouselRef.current.scrollLeft += e.deltaY
-        }
-      } else {
-        console.log(`scrollYYY: ${window.scrollY}`)
+        // console.log('delta', event.deltaX, event.deltaY)
       }
     }
 
@@ -89,37 +84,65 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     return () => window.removeEventListener('wheel', handleScroll)
   }, [carouselCenteredHeight, isCarouselActive])
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Assuming each entry.target.id corresponds to artist.name
+            const index = shuffledArtists.findIndex((artist) => artist.name === entry.target.id)
+            console.log('intersecting', entry.target.id, index, shuffledArtists[index])
+            setCurrentCarouselIndex(index)
+          }
+        })
+      },
+      {
+        root: carouselRef.current, // Observe intersections within the carousel
+        threshold: 1, // Configure the observer to trigger when 50% of an item is in view
+      },
+    )
+
+    if (carouselRef.current) {
+      const itemElements = carouselRef.current.querySelectorAll('.carousel-item')
+      itemElements.forEach((element) => observer.observe(element))
+    }
+
+    // Cleanup observer on component unmount
+    return () => observer.disconnect()
+  }, [shuffledArtists])
+
   return (
     <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', 'flex flex-col justify-center')}>
-      Special {isCarouselActive && 'active'}
+      Special - {isCarouselActive && 'active'} - {currentCarouselIndex}
       {/* carousel */}
       <div
         ref={carouselRef}
-        className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-y')}
+        className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-x')}
       >
-        {/* <div key={0} className="w-[500px] h-[500px] bg-none animate-pulse shrink-0 blur-sm" /> */}
+        <div key={0} className="w-[500px] h-[500px] bg-none animate-pulse shrink-0 blur-sm" />
         {shuffledArtists.length
           ? shuffledArtists.map((artist, index) => (
               <div
                 key={index + 1}
-                className="flex flex-col justify-center items-center shrink-0 bg-red-300 snap-center"
+                id={artist.name}
+                className="flex flex-col justify-center items-center shrink-0 bg-red-300 snap-center carousel-item"
               >
                 <Image
                   alt={artist.name}
                   src={artist.artworkPath}
-                  width={500}
+                  width={800}
                   height={500}
-                  className="h-[500px] w-atuo object-contain"
+                  className="h-[800px] w-atuo object-contain"
                 />
               </div>
             ))
-          : [...Array(5)].map((_, index) => (
+          : [...Array(artists.length)].map((_, index) => (
               <div
                 key={index + 1}
                 className="w-[500px] h-[500px] bg-gray-300 animate-pulse shrink-0 blur-sm snap-center"
               />
             ))}
-        {/* <div key={shuffledArtists.length + 1} className="w-[500px] h-[500px] bg-none animate-pulse shrink-0 blur-sm" /> */}
+        <div key={shuffledArtists.length + 1} className="w-[500px] h-[500px] bg-none animate-pulse shrink-0 blur-sm" />
       </div>
     </div>
   )

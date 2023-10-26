@@ -1,4 +1,4 @@
-type Artist = {
+export type Artist = {
   name: string
   artworkPath: string
 }
@@ -13,7 +13,7 @@ export const artists: Artist[] = [
     artworkPath: '/artworks/kior.jpeg',
   },
   {
-    name: 'tomoro.jpeg',
+    name: 'tomoro',
     artworkPath: '/artworks/tomoro.jpeg',
   },
   {
