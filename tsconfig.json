@@ -27,7 +27,7 @@
         "./src/*"
       ],
       "@ui/*": [
-        "src/components/ui/*"
+        "./src/components/ui/*"
       ]
     }
   },

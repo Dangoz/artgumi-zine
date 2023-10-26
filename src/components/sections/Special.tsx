@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { artists } from '@/models/artists'
 import type { Artist } from '@/models/artists'
+import FrameDialog from '../artDisplay/FrameDialog'
 
 type SpecialProps = {
   introRef: React.RefObject<HTMLDivElement>
@@ -10,6 +11,8 @@ type SpecialProps = {
 }
 
 const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, noteRef }, ref) => {
+  const [KiorDialog, setKiordialog] = useState<boolean>(false)
+
   const [shuffledArtists, setShuffledArtists] = useState<Artist[]>([])
   const [carouselCenteredHeight, setCarouselCenteredHeight] = useState<number>(0)
   const [isCarouselActive, setIsCarouselActive] = useState<boolean>(false)
@@ -157,7 +160,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
         ref={carouselRef}
         className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-x')}
       >
-        <div key={0} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm" />
+        <div key={0} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
         {shuffledArtists.length
           ? shuffledArtists.map((artist, index) => (
               <div
@@ -171,7 +174,13 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                   width={600}
                   height={600}
                   className="h-[600px] w-atuo object-contain"
+                  onClick={() => {
+                    if (artist.name === 'Kior') {
+                      setKiordialog(true)
+                    }
+                  }}
                 />
+                {artist.name === 'Kior' && <FrameDialog artist={artist} open={KiorDialog} setOpen={setKiordialog} />}
               </div>
             ))
           : [...Array(artists.length)].map((_, index) => (
