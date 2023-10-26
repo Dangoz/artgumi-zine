@@ -22,18 +22,22 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>((props, ref) => {
       Special
       {/* carousel */}
       <div className="relative bg-slate-100 gap-2 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2">
-        {shuffledArtists.map((artist) => (
-          <div key={artist.name} className="flex flex-col justify-center items-center shrink-0 bg-red-500">
-            <Image
-              key={artist.name}
-              alt={artist.name}
-              src={artist.artworkPath}
-              width={500}
-              height={500}
-              className="h-[500px] w-atuo object-contain"
-            />
-          </div>
-        ))}
+        {shuffledArtists.length
+          ? shuffledArtists.map((artist) => (
+              <div key={artist.name} className="flex flex-col justify-center items-center shrink-0 bg-red-0">
+                <Image
+                  key={artist.name}
+                  alt={artist.name}
+                  src={artist.artworkPath}
+                  width={500}
+                  height={500}
+                  className="h-[500px] w-atuo object-contain"
+                />
+              </div>
+            ))
+          : [...Array(5)].map((_, i) => (
+              <div key={i} className="w-[500px] h-[500px] bg-gray-300 animate-pulse shrink-0 blur-sm" />
+            ))}
       </div>
     </div>
   )
