@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { artists } from '@/models/artists'
@@ -6,13 +6,23 @@ import { artists } from '@/models/artists'
 type SpecialProps = {}
 
 const Special = React.forwardRef<HTMLDivElement, SpecialProps>((props, ref) => {
+  // re-arrange the order of artists randomly on each page load
+  const shuffledArtists = useMemo(() => {
+    const artistsCopy = [...artists]
+    for (let i = artistsCopy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[artistsCopy[i], artistsCopy[j]] = [artistsCopy[j], artistsCopy[i]]
+    }
+    return artistsCopy
+  }, [])
+
   return (
     <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', '')}>
       Special
       {/* carousel */}
-      <div className="relative bg-slate-100 gap-2 pt-10 pb-10 p-2 flex flex-nowrap overflow-scroll">
-        {artists.map((artist) => (
-          <div key={artist.name} className="flex flex-col justify-center items-center shrink-0">
+      <div className="relative bg-slate-100 gap-2 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2">
+        {shuffledArtists.map((artist) => (
+          <div key={artist.name} className="flex flex-col justify-center items-center shrink-0 bg-red-500">
             <Image
               key={artist.name}
               alt={artist.name}
