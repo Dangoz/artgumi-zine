@@ -57,15 +57,26 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     if (carouselCenteredHeight === 0) return
 
     const handleScroll = (e: WheelEvent) => {
-      console.log(`scrollYYY: ${window.scrollY}`)
-
       if (window.scrollY >= carouselCenteredHeight) {
-        console.log('REACHEEED')
+        console.log('REACHEEED', window.scrollY)
+
+        //disable default scroll behavior
         e.preventDefault()
-        // if (carouselRef.current) {
-        //   // Scroll the carousel horizontally based on the vertical scroll delta
-        //   carouselRef.current.scrollLeft += e.deltaY;
-        // }
+
+        // check and activate carousel state
+        if (!isCarouselActive) {
+          setIsCarouselActive(true)
+        }
+
+        // adjust window to center of carousel
+        window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
+
+        // instead scroll will scroll the caraousel horizontally
+        if (carouselRef.current) {
+          carouselRef.current.scrollLeft += e.deltaY
+        }
+      } else {
+        console.log(`scrollYYY: ${window.scrollY}`)
       }
     }
 
@@ -76,7 +87,8 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   }, [carouselCenteredHeight, isCarouselActive])
 
   return (
-    <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', 'flex items-center')}>
+    <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', 'flex flex-col justify-center')}>
+      Special {isCarouselActive && 'active'}
       {/* carousel */}
       <div ref={carouselRef} className="relative bg-slate-100 gap-2 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2">
         {shuffledArtists.length
