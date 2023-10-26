@@ -6,9 +6,9 @@ type IntroProps = {
   sections: React.RefObject<HTMLDivElement>[]
 }
 
-const Intro = ({ sections }: IntroProps) => {
+const Intro = React.forwardRef<HTMLDivElement, IntroProps>(({ sections }, ref) => {
   return (
-    <div className="flex justify-center items-center w-screen h-60 gap-10">
+    <div ref={ref} className="flex justify-center items-center w-screen h-60 gap-10">
       <button className="absolute mb-20 mr-40 animate-bounce" onClick={() => scrollToSection(sections[0])}>
         Icon 1
       </button>
@@ -24,6 +24,8 @@ const Intro = ({ sections }: IntroProps) => {
       </button>
     </div>
   )
-}
+})
+
+Intro.displayName = 'Intro'
 
 export default Intro

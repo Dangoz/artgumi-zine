@@ -9,6 +9,7 @@ import Highlight from '@/components/sections/Highlight'
 import Credit from '@/components/sections/Credit'
 
 export default function Home() {
+  const introRef = useRef<HTMLDivElement>(null)
   const noteRef = useRef<HTMLDivElement>(null)
   const specialRef = useRef<HTMLDivElement>(null)
   const highlightRef = useRef<HTMLDivElement>(null)
@@ -19,10 +20,10 @@ export default function Home() {
       {/* side navigatin */}
       <SideNav sections={[noteRef, specialRef, highlightRef, creditRef]} />
 
-      <Intro sections={[noteRef, specialRef, highlightRef, creditRef]} />
+      <Intro ref={introRef} sections={[noteRef, specialRef, highlightRef, creditRef]} />
 
       <Note ref={noteRef} />
-      <Special ref={specialRef} />
+      <Special ref={specialRef} introRef={introRef} noteRef={noteRef} />
       <Highlight ref={highlightRef} />
       <Credit ref={creditRef} />
     </div>

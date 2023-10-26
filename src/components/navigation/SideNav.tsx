@@ -22,8 +22,6 @@ const SideNav = ({ sections }: SideNavProps) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const index = sections.findIndex((section) => section.current === entry.target)
-            console.log(`current index: ${index}`)
-            console.log(entry.target)
             setActiveSection(index)
           }
         })
