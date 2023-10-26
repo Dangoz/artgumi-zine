@@ -24,6 +24,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     setShuffledArtists(artistsCopy)
   }, [])
 
+  // calculate the centered height of the carousel
   useEffect(() => {
     if (!introRef.current || !noteRef.current || !carouselRef.current) return
 
@@ -53,6 +54,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     // window.scrollTo({ top: carouselCenteredHeight, behavior: 'smooth' })
   }, [introRef, noteRef])
 
+  // when user scrolls to center of carousel, disable default scroll behavior and activate carousel scroll
   useEffect(() => {
     if (carouselCenteredHeight === 0) return
 
