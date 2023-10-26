@@ -22,6 +22,6 @@ export const artists: Artist[] = [
   },
   {
     name: 'masaki_nakamura',
-    artworkPath: '/artworks/masaki_nakamura.jpeg',
+    artworkPath: '/artworks/masaki-nakamura.jpeg',
   },
 ]
