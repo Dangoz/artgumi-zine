@@ -47,7 +47,7 @@ const SideNav = ({ sections }: SideNavProps) => {
     <div
       className={clsx(
         'fixed left-1 top-1/2 rounded-2xl pt-1 pb-1 backdrop-blur-sm backdrop-filter',
-        'border-black/50 border-[1px]',
+        'border-black/50 border-[1px] z-50',
         'flex flex-col justify-evenly items-center gap-1.5 bg-black/60',
       )}
     >
