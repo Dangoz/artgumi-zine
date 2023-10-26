@@ -13,6 +13,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   const [shuffledArtists, setShuffledArtists] = useState<Artist[]>([])
   const [carouselCenteredHeight, setCarouselCenteredHeight] = useState<number>(0)
   const [isCarouselActive, setIsCarouselActive] = useState<boolean>(false)
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(1)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -62,18 +63,18 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
       if (window.scrollY >= carouselCenteredHeight) {
         console.log('REACHEEED', window.scrollY)
 
-        //disable default scroll behavior
-        e.preventDefault()
+        // disable default scroll behavior
+        document.body.style.overflow = 'hidden'
 
         // check and activate carousel state
         if (!isCarouselActive) {
           setIsCarouselActive(true)
+
+          // stick window to the center of the carousel
+          window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
         }
 
-        // adjust window to center of carousel
-        window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
-
-        // instead scroll will scroll the caraousel horizontally
+        // instead scroll will scroll to the next item in the carousel (scroll-snap)
         if (carouselRef.current) {
           carouselRef.current.scrollLeft += e.deltaY
         }
@@ -92,12 +93,18 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', 'flex flex-col justify-center')}>
       Special {isCarouselActive && 'active'}
       {/* carousel */}
-      <div ref={carouselRef} className="relative bg-slate-100 gap-2 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2">
+      <div
+        ref={carouselRef}
+        className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-y')}
+      >
+        {/* <div key={0} className="w-[500px] h-[500px] bg-none animate-pulse shrink-0 blur-sm" /> */}
         {shuffledArtists.length
-          ? shuffledArtists.map((artist) => (
-              <div key={artist.name} className="flex flex-col justify-center items-center shrink-0 bg-red-0">
+          ? shuffledArtists.map((artist, index) => (
+              <div
+                key={index + 1}
+                className="flex flex-col justify-center items-center shrink-0 bg-red-300 snap-center"
+              >
                 <Image
-                  key={artist.name}
                   alt={artist.name}
                   src={artist.artworkPath}
                   width={500}
@@ -106,9 +113,13 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                 />
               </div>
             ))
-          : [...Array(5)].map((_, i) => (
-              <div key={i} className="w-[500px] h-[500px] bg-gray-300 animate-pulse shrink-0 blur-sm" />
+          : [...Array(5)].map((_, index) => (
+              <div
+                key={index + 1}
+                className="w-[500px] h-[500px] bg-gray-300 animate-pulse shrink-0 blur-sm snap-center"
+              />
             ))}
+        {/* <div key={shuffledArtists.length + 1} className="w-[500px] h-[500px] bg-none animate-pulse shrink-0 blur-sm" /> */}
       </div>
     </div>
   )
