@@ -10,20 +10,33 @@ const Intro = React.forwardRef<HTMLDivElement, IntroProps>(({ sections }, ref) =
   return (
     <div
       ref={ref}
-      className="flex justify-center items-center w-screen h-screen bg-[url('/assets/intro/intro-background.png')] bg-no-repeat bg-cover"
+      className="relative flex justify-center items-center w-screen h-screen bg-[url('/assets/intro/intro-background.png')] bg-no-repeat bg-cover"
     >
-      <button className="absolute mb-20 mr-40 animate-bounce" onClick={() => scrollToSection(sections[0])}>
-        Icon 1
+      <button className="absolute mb-[250px] mr-[500px] z-20" onClick={() => scrollToSection(sections[0])}>
+        <Image alt="note" src="/assets/intro/note-icon.png" width={350} height={350} />
       </button>
-      <button className="absolute mb-40 ml-32" onClick={() => scrollToSection(sections[1])}>
-        Icon 2
+      <button className="absolute mb-[300px] ml-[550px] z-20" onClick={() => scrollToSection(sections[1])}>
+        <Image alt="special" src="/assets/intro/special-icon.png" width={250} height={250} />
       </button>
-      <Image alt="logo" src="/artgumi-tiger.png" width={100} height={100} />
-      <button className="absolute mt-20 mr-32" onClick={() => scrollToSection(sections[2])}>
-        Icon 3
+      {/* <Image alt="logo" src="/artgumi-tiger.png" width={100} height={100} /> */}
+
+      {/* title */}
+      <div className="relative p-2 hover:animate-pulse z-10">
+        <Image alt="logo" src="/assets/intro/title.png" width={500} height={500} className="" />
+        <Image
+          alt="label"
+          src="/assets/intro/label.png"
+          width={270}
+          height={270}
+          className="absolute right-0 bottom-0 mr-[40px]"
+        />
+      </div>
+
+      <button className="absolute mt-[400px] mr-[570px] z-20" onClick={() => scrollToSection(sections[2])}>
+        <Image alt="highlight" src="/assets/intro/highlight-icon.png" width={200} height={200} />
       </button>
-      <button className="absolute mt-40 ml-20" onClick={() => scrollToSection(sections[3])}>
-        Icon 4
+      <button className="absolute mt-[250px] ml-[530px] z-20" onClick={() => scrollToSection(sections[3])}>
+        <Image alt="credit" src="/assets/intro/credit-icon.png" width={220} height={220} />
       </button>
     </div>
   )

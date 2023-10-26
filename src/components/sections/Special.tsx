@@ -163,7 +163,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
               <div
                 key={index + 1}
                 id={artist.name}
-                className="flex flex-col justify-center items-center shrink-0 bg-red-0 snap-center carousel-item"
+                className="flex flex-col justify-center items-center shrink-0 bg-red-100 snap-center carousel-item"
               >
                 <Image
                   alt={artist.name}
