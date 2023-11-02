@@ -46,7 +46,7 @@ export const artists: Artist[] = [
   {
     title: 'Prayer',
     name: 'Masaki Nakamura',
-    artworkPath: '/artworks/masaki-nakamura.jpeg',
+    artworkPath: '/artworks/masaki-nakamura.jpg',
     description: `Brilliance' comes from praying, 'pleasure', 'body', 'study', some may even pray 'goodbye'. If there is brilliance in the past, it is the past and memories. The 'radiance' exists in the future.\n\n\n「輝き」は祈る事によりもたらされる、「快楽」「身体」「勉学」中には「さよなら」と祈る人もいるだろう。過去に輝きがあったとしてもそれは過去であり思い出。「輝き」は未来に存在する。\n\n\nPhotoshop collage of hand-drawn, photographic and AI.\n2023`,
     x: 'GraphicNakamura',
     metadataUri: 'https://ipfs.pixura.io/ipfs/QmPZCHQbRqWW11gnv7ycMSnmYifKKzPdrNuPuch8CXFc3J/metadata.json',

@@ -60,44 +60,44 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   }, [introRef, noteRef])
 
   // when user scrolls to center of carousel, disable default scroll behavior and activate carousel scroll
-  useEffect(() => {
-    if (carouselCenteredHeight === 0) return
+  // useEffect(() => {
+  //   if (carouselCenteredHeight === 0) return
 
-    const handleScroll = (event: WheelEvent) => {
-      if (
-        (window.scrollY > carouselCenteredHeight && currentCarouselIndex === 0 && carouselIndexAnchor === 4) ||
-        (window.scrollY < carouselCenteredHeight && currentCarouselIndex === 4 && carouselIndexAnchor === 0)
-      ) {
-        // console.log('REACHEEED', window.scrollY, window.scrollX)
+  //   const handleScroll = (event: WheelEvent) => {
+  //     if (
+  //       (window.scrollY > carouselCenteredHeight && currentCarouselIndex === 0 && carouselIndexAnchor === 4) ||
+  //       (window.scrollY < carouselCenteredHeight && currentCarouselIndex === 4 && carouselIndexAnchor === 0)
+  //     ) {
+  //       // console.log('REACHEEED', window.scrollY, window.scrollX)
 
-        // disable default scroll behavior
-        document.body.style.overflow = 'hidden'
+  //       // disable default scroll behavior
+  //       document.body.style.overflow = 'hidden'
 
-        // check and activate carousel state
-        if (!isCarouselActive) {
-          setIsCarouselActive(true)
+  //       // check and activate carousel state
+  //       if (!isCarouselActive) {
+  //         setIsCarouselActive(true)
 
-          // stick window to the center of the carousel
-          window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
-        }
+  //         // stick window to the center of the carousel
+  //         window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
+  //       }
 
-        // scroll the carousel horizontally as wheels respond to vertical scroll
-        if (carouselRef.current) {
-          carouselRef.current.children[currentCarouselIndex].scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
+  //       // scroll the carousel horizontally as wheels respond to vertical scroll
+  //       if (carouselRef.current) {
+  //         carouselRef.current.children[currentCarouselIndex].scrollIntoView({
+  //           behavior: 'smooth',
+  //           block: 'center',
 
-            inline: 'center',
-          })
-        }
-      }
-    }
+  //           inline: 'center',
+  //         })
+  //       }
+  //     }
+  //   }
 
-    window.addEventListener('wheel', handleScroll, { passive: false })
+  //   window.addEventListener('wheel', handleScroll, { passive: false })
 
-    // Cleanup event listener on component unmount
-    return () => window.removeEventListener('wheel', handleScroll)
-  }, [carouselCenteredHeight, isCarouselActive, carouselIndexAnchor, currentCarouselIndex])
+  //   // Cleanup event listener on component unmount
+  //   return () => window.removeEventListener('wheel', handleScroll)
+  // }, [carouselCenteredHeight, isCarouselActive, carouselIndexAnchor, currentCarouselIndex])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -126,32 +126,30 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     return () => observer.disconnect()
   }, [shuffledArtists])
 
-  useEffect(() => {
-    // when anchor is on the last item and user scrolls to the last item
-    if (carouselIndexAnchor === artists.length - 1 && currentCarouselIndex === artists.length - 1) {
-      // release default scroll behavior
-      document.body.style.overflow = ''
+  // useEffect(() => {
+  //   // when anchor is on the last item and user scrolls to the last item
+  //   if (carouselIndexAnchor === artists.length - 1 && currentCarouselIndex === artists.length - 1) {
+  //     // release default scroll behavior
+  //     document.body.style.overflow = ''
 
-      // set anchor to the first item
-      setCarouselIndexAnchor(0)
-    }
+  //     // set anchor to the first item
+  //     setCarouselIndexAnchor(0)
+  //   }
 
-    // when anchor is on the first item and user scrolls to the first item
-    if (carouselIndexAnchor === 0 && currentCarouselIndex === 0) {
-      // release default scroll behavior
-      document.body.style.overflow = ''
+  //   // when anchor is on the first item and user scrolls to the first item
+  //   if (carouselIndexAnchor === 0 && currentCarouselIndex === 0) {
+  //     // release default scroll behavior
+  //     document.body.style.overflow = ''
 
-      // set anchor to the last item
-      setCarouselIndexAnchor(artists.length - 1)
-    }
+  //     // set anchor to the last item
+  //     setCarouselIndexAnchor(artists.length - 1)
+  //   }
 
-    // when anchor is on the last item and user
-  }, [currentCarouselIndex, carouselIndexAnchor, shuffledArtists])
+  //   // when anchor is on the last item and user
+  // }, [currentCarouselIndex, carouselIndexAnchor, shuffledArtists])
 
   return (
     <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', 'flex flex-col justify-center')}>
-      Special - {isCarouselActive && 'active'} - {currentCarouselIndex} - {carouselIndexAnchor}
-      {/* carousel */}
       <div
         ref={carouselRef}
         className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-y')}
@@ -163,6 +161,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                 key={index + 1}
                 id={artist.name}
                 className="flex flex-col justify-center items-center shrink-0 bg-red-100 snap-center carousel-item"
+                // onClick={() => setKiordialog(true)}
               >
                 {/* check if file is video or image/gif */}
                 {!artist.artworkPath.includes('.mp4') ? (
@@ -172,11 +171,6 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                     width={600}
                     height={600}
                     className="h-[600px] w-atuo object-contain"
-                    onClick={() => {
-                      if (artist.name === 'Kior') {
-                        setKiordialog(true)
-                      }
-                    }}
                   />
                 ) : (
                   <video
@@ -186,7 +180,6 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                     width={600}
                     height={600}
                     className="h-[600px] w-atuo object-contain"
-                    onClick={() => setKiordialog(true)}
                   />
                 )}
                 {<FrameDialog artist={artist} open={KiorDialog} setOpen={setKiordialog} />}
