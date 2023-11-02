@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 type FullscreenImageDialogProps = {
   src: string
@@ -28,7 +29,13 @@ const FullscreenImageDialog: React.FC<FullscreenImageDialogProps> = ({ src, alt,
 
   return (
     <div ref={dialogRef} className="fixed inset-0 bg-black flex items-center justify-center" onClick={onClose}>
-      <img src={src} alt={alt} className="max-w-full max-h-full object-contain" />
+      <Image src={src} alt={alt} fill={true} className="max-w-full max-h-full object-contain" />
+      {/* check if file is video or image/gif */}
+      {!src.includes('.mp4') ? (
+        <Image src={src} alt={alt} fill={true} className="max-w-full max-h-full object-contain" />
+      ) : (
+        <video src={src} autoPlay muted className="max-w-full max-h-full object-contain" />
+      )}
     </div>
   )
 }

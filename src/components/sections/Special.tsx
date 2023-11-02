@@ -81,19 +81,15 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
           window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
         }
 
-        // scrollTo
-        // if (carouselRef.current) {
-        //   const itemWidth = 600;  // Adjust this value to match the actual width of your carousel items
-        //   const direction = event.deltaY > 0 ? 1 : -1;
-        //   const newIndex = currentCarouselIndex + direction;
-        //   if (newIndex >= 0 && newIndex < artists.length) {
-        //     carouselRef.current.scrollTo({
-        //       left: newIndex * itemWidth,
-        //       behavior: 'smooth'
-        //     });
-        //     setCurrentCarouselIndex(newIndex);  // Update the current index state
-        //   }
-        // }
+        // scroll the carousel horizontally as wheels respond to vertical scroll
+        if (carouselRef.current) {
+          carouselRef.current.children[currentCarouselIndex].scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+
+            inline: 'center',
+          })
+        }
       }
     }
 
@@ -158,7 +154,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
       {/* carousel */}
       <div
         ref={carouselRef}
-        className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-x')}
+        className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-y')}
       >
         <div key={0} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
         {shuffledArtists.length
@@ -168,19 +164,32 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                 id={artist.name}
                 className="flex flex-col justify-center items-center shrink-0 bg-red-100 snap-center carousel-item"
               >
-                <Image
-                  alt={artist.name}
-                  src={artist.artworkPath}
-                  width={600}
-                  height={600}
-                  className="h-[600px] w-atuo object-contain"
-                  onClick={() => {
-                    if (artist.name === 'Kior') {
-                      setKiordialog(true)
-                    }
-                  }}
-                />
-                {artist.name === 'Kior' && <FrameDialog artist={artist} open={KiorDialog} setOpen={setKiordialog} />}
+                {/* check if file is video or image/gif */}
+                {!artist.artworkPath.includes('.mp4') ? (
+                  <Image
+                    alt={artist.name}
+                    src={artist.artworkPath}
+                    width={600}
+                    height={600}
+                    className="h-[600px] w-atuo object-contain"
+                    onClick={() => {
+                      if (artist.name === 'Kior') {
+                        setKiordialog(true)
+                      }
+                    }}
+                  />
+                ) : (
+                  <video
+                    autoPlay
+                    muted
+                    src={artist.artworkPath}
+                    width={600}
+                    height={600}
+                    className="h-[600px] w-atuo object-contain"
+                    onClick={() => setKiordialog(true)}
+                  />
+                )}
+                {<FrameDialog artist={artist} open={KiorDialog} setOpen={setKiordialog} />}
               </div>
             ))
           : [...Array(artists.length)].map((_, index) => (

@@ -4,6 +4,7 @@ import type { Artist } from '@/models/artists'
 import { Twitter } from 'lucide-react'
 import Image from 'next/image'
 import FullscreenImageDialog from './FullScreenImageDialog'
+import X from '@/components/ui/icons/X'
 
 type FrameDialogProps = {
   artist: Artist
@@ -30,22 +31,27 @@ const FrameDialog: React.FC<FrameDialogProps> = ({ artist, open, setOpen }) => {
             className="flex flex-col justify-center items-start gap-3 bg-slate-400/20 rounded-md p-2 backdrop-blur-md"
             onClick={handleImageClick}
           >
-            <Image alt={artist.name} src={artist.artworkPath} width={400} height={400} className="object-contain" />
+            {/* check if file is video or image/gif */}
+            {!artist.artworkPath.includes('.mp4') ? (
+              <Image alt={artist.name} src={artist.artworkPath} width={400} height={400} className="object-contain" />
+            ) : (
+              <video autoPlay muted src={artist.artworkPath} width={400} height={400} className="object-contain" />
+            )}
           </div>
           <div className="flex flex-col justify-center items-start gap-3 bg-slate-400/20 rounded-md p-2 backdrop-blur-md w-[400px] h-[400px]">
             <div>
               <h2 className="text-2xl font-bold mb-2 text-red-300">{artist.name}</h2>
-              <div className="text-white/80 mb-4">{artist.description}</div>
+              <div className="text-white/80 mb-4 whitespace-pre-line">{artist.description}</div>
             </div>
-            <div className="flex items-center space-x-2">
-              <Twitter className=" fill-blue-400 text-blue-400" />
+            <div className="flex items-center gap-1">
+              <X className="w-6 h-6 fill-black" />
               <a
-                href={`https://twitter.com/${artist.twitter}`}
+                href={`https://twitter.com/${artist.x}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-400 transition"
+                className="text-black hover:text-blue-400 transition"
               >
-                @{artist.twitter}
+                @{artist.x}
               </a>
             </div>
           </div>
