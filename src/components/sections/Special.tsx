@@ -170,16 +170,16 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                     src={artist.artworkPath}
                     width={600}
                     height={600}
-                    className="h-[600px] w-atuo object-contain"
+                    className="h-[600px] w-atuo object-contain w-fit"
                   />
                 ) : (
                   <video
                     autoPlay
                     muted
                     src={artist.artworkPath}
-                    width={600}
-                    height={600}
-                    className="h-[600px] w-atuo object-contain"
+                    // width={600}
+                    // height={600}
+                    className="h-[600px] w-atuo object-contain min-w-[600px]"
                   />
                 )}
                 {<FrameDialog artist={artist} open={KiorDialog} setOpen={setKiordialog} />}
