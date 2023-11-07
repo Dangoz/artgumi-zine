@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { artists } from '@/models/artists'
 import type { Artist } from '@/models/artists'
 import FrameDialog from '../artDisplay/FrameDialog'
-import { motion, useTransform, useScroll } from 'framer-motion'
+import { motion, useTransform, useScroll, AnimatePresence } from 'framer-motion'
 import Frame from '../artDisplay/Frame'
 
 type SpecialProps = {
@@ -44,6 +44,15 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     setShuffledArtists(artistsCopy)
   }, [])
 
+  // scroll carousel horizontally as scroll-Y-Progresses
+  useEffect(() => {
+    if (carouselRef.current) {
+      const maxScrollLeft = carouselRef.current.scrollWidth - carouselRef.current.clientWidth
+      const scrollLeft = maxScrollLeft * scrollYProgressValue
+      carouselRef.current.scrollLeft = scrollLeft
+    }
+  }, [scrollYProgressValue])
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries, observer) => {
@@ -76,7 +85,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
       <div className="fixed top-0 left-0 z-50 bg-white text-black">
         Y: {scrollYValue.toFixed(2)}
         <br />
-        Progress%: {scrollYProgressValue.toFixed(2)}
+        Progress%: {scrollYProgressValue}
         <br />
         Transform: {transformProgressValue}
       </div>
@@ -84,14 +93,15 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
       <div className="bg-black w-screen h-[30vh] text-white">Before</div>
 
       <div ref={carouselWrapperRef} className="relative bg-pink-200 h-[300vh]">
-        <div
+        <motion.div
           ref={carouselRef}
           className={clsx(
-            'sticky top-0 h-screen overflow-hidden',
+            'sticky top-0 h-screen overflow-scroll',
             'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2 snap-x snap-mandatory',
           )}
+          // style={{ scrollBehavior: 'smooth' }}
         >
-          <motion.div style={{ translateX: x }} className="flex gap-10">
+          <div className="flex gap-10">
             <div key={0} className="w-[1000px] h-[600px] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
 
             {[...Array(artists.length)].map((_, index) => (
@@ -102,8 +112,8 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
               key={shuffledArtists.length + 1}
               className="w-[1000px] h-[600px] bg-none animate-pulse shrink-0 blur-sm"
             />
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
 
       <div className="bg-black w-screen h-[30vh] text-white">After</div>
