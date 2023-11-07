@@ -27,11 +27,8 @@ const FrameDialog: React.FC<FrameDialogProps> = ({ artist, open, setOpen }) => {
     <>
       <Dialog
         open={open}
-        setOpen={(e) => {
-          alert(`changing dialog ${e}`)
-          setOpen(e)
-        }}
-        blur={'md'}
+        setOpen={setOpen}
+        // blur={'md'}
         close={true}
       >
         <div className="flex w-screen h-screen items-start justify-center gap-4 pt-28">

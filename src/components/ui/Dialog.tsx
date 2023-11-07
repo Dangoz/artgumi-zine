@@ -23,6 +23,8 @@ const Modal: React.FC<DialogProps> = ({ children, open, setOpen, blur = undefine
             blur === 'md' && 'backdrop-blur-md',
             blur === 'lg' && 'backdrop-blur-lg',
           )}
+          onClick={() => setOpen(false)}
+          onPointerDownCapture={() => setOpen(false)}
         >
           <Dialog.Content>
             {children}

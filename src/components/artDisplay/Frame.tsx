@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import type { Artist } from '@/models/artists'
 import Image from 'next/image'
-// import FrameDialog from './FrameDialog'
-import Dialog from '@ui/Dialog'
+import FrameDialog from './FrameDialog'
 
 type FrameProps = {
   artist?: Artist
@@ -17,7 +16,6 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
     <div
       id={artist.name}
       className="flex flex-col justify-center items-center shrink-0 bg-blue-300 snap-center carousel-item cursor-pointer"
-      onClick={() => setDialogOpen(true)}
     >
       {/* check if file is video or image/gif */}
       {!artist.artworkPath.includes('.mp4') ? (
@@ -27,15 +25,19 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
           width={1000}
           height={600}
           className="h-[600px] w-[1000px] object-contain"
+          onClick={() => setDialogOpen(true)}
         />
       ) : (
-        <video autoPlay muted loop src={artist.artworkPath} className="h-[600px] w-[1000px] object-contain" />
+        <video
+          autoPlay
+          muted
+          loop
+          src={artist.artworkPath}
+          className="h-[600px] w-[1000px] object-contain"
+          onClick={() => setDialogOpen(true)}
+        />
       )}
-      {/* {<FrameDialog artist={artist} open={dialogOpen} setOpen={setDialogOpen} />} */}
-
-      <Dialog open={dialogOpen} setOpen={setDialogOpen} blur={'md'} close={true}>
-        <div className=" w-screen h-screen flex justify-center items-center bg-blue-300">123 321 {artist.name}</div>
-      </Dialog>
+      {<FrameDialog artist={artist} open={dialogOpen} setOpen={setDialogOpen} />}
     </div>
   )
 }
