@@ -3,7 +3,7 @@ import Dialog from '@ui/Dialog'
 import type { Artist } from '@/models/artists'
 import { Twitter } from 'lucide-react'
 import Image from 'next/image'
-import FullscreenImageDialog from './FullScreenImageDialog'
+import FullScreenFrameDialog from './FullScreenFrameDialog'
 import X from '@/components/ui/icons/X'
 
 type FrameDialogProps = {
@@ -25,7 +25,15 @@ const FrameDialog: React.FC<FrameDialogProps> = ({ artist, open, setOpen }) => {
 
   return (
     <>
-      <Dialog open={open} setOpen={setOpen} blur={'md'} close={true}>
+      <Dialog
+        open={open}
+        setOpen={(e) => {
+          alert(`changing dialog ${e}`)
+          setOpen(e)
+        }}
+        blur={'md'}
+        close={true}
+      >
         <div className="flex w-screen h-screen items-start justify-center gap-4 pt-28">
           <div
             className="flex flex-col justify-center items-start gap-3 bg-slate-400/20 rounded-md p-2 backdrop-blur-md"
@@ -58,7 +66,7 @@ const FrameDialog: React.FC<FrameDialogProps> = ({ artist, open, setOpen }) => {
         </div>
       </Dialog>
       {isImageFullscreen && (
-        <FullscreenImageDialog
+        <FullScreenFrameDialog
           src={artist.artworkPath}
           alt={artist.name}
           open={isImageFullscreen}

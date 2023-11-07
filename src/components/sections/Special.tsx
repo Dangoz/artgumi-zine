@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { artists } from '@/models/artists'
 import type { Artist } from '@/models/artists'
 import FrameDialog from '../artDisplay/FrameDialog'
+import { motion } from 'framer-motion'
+import Frame from '../artDisplay/Frame'
 
 type SpecialProps = {
   introRef: React.RefObject<HTMLDivElement>
@@ -20,6 +22,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   const [carouselIndexAnchor, setCarouselIndexAnchor] = useState<number>(4)
   const carouselRef = useRef<HTMLDivElement>(null)
 
+  // shuffle artists
   useEffect(() => {
     const artistsCopy = [...artists]
     for (let i = artistsCopy.length - 1; i > 0; i--) {
@@ -30,34 +33,34 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   }, [])
 
   // calculate the centered height of the carousel
-  useEffect(() => {
-    if (!introRef.current || !noteRef.current || !carouselRef.current) return
+  // useEffect(() => {
+  //   if (!introRef.current || !noteRef.current || !carouselRef.current) return
 
-    // get the height of intro & note components
-    const introHeight = introRef.current.clientHeight
-    const noteHeight = noteRef.current.clientHeight
+  //   // get the height of intro & note components
+  //   const introHeight = introRef.current.clientHeight
+  //   const noteHeight = noteRef.current.clientHeight
 
-    console.log(`intro height: ${introHeight}`)
-    console.log(`note height: ${noteHeight}`)
+  //   console.log(`intro height: ${introHeight}`)
+  //   console.log(`note height: ${noteHeight}`)
 
-    // get the median height of carousel
-    const carouselHeight = carouselRef.current.clientHeight
-    console.log(`carousel height: ${carouselHeight}`)
+  //   // get the median height of carousel
+  //   const carouselHeight = carouselRef.current.clientHeight
+  //   console.log(`carousel height: ${carouselHeight}`)
 
-    // browser window height
-    const windowHeight = window.innerHeight
-    console.log(`window height: ${windowHeight}`)
+  //   // browser window height
+  //   const windowHeight = window.innerHeight
+  //   console.log(`window height: ${windowHeight}`)
 
-    // offset that puts the carousel in the middle of the screen
-    const offset = (1000 - windowHeight) / 2
-    console.log(`offset: ${offset}`)
+  //   // offset that puts the carousel in the middle of the screen
+  //   const offset = (1000 - windowHeight) / 2
+  //   console.log(`offset: ${offset}`)
 
-    const carouselCenteredHeight = introHeight + noteHeight + offset
-    console.log(`carousel centered height: ${carouselCenteredHeight}`)
-    setCarouselCenteredHeight(carouselCenteredHeight)
+  //   const carouselCenteredHeight = introHeight + noteHeight + offset
+  //   console.log(`carousel centered height: ${carouselCenteredHeight}`)
+  //   setCarouselCenteredHeight(carouselCenteredHeight)
 
-    // window.scrollTo({ top: carouselCenteredHeight, behavior: 'smooth' })
-  }, [introRef, noteRef])
+  //   // window.scrollTo({ top: carouselCenteredHeight, behavior: 'smooth' })
+  // }, [introRef, noteRef])
 
   // when user scrolls to center of carousel, disable default scroll behavior and activate carousel scroll
   // useEffect(() => {
@@ -152,38 +155,16 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', 'flex flex-col justify-center')}>
       <div
         ref={carouselRef}
-        className={clsx('relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap overflow-scroll p-2 snap-y')}
+        className={clsx(
+          'relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap items-center overflow-scroll p-2 snap-x snap-mandatory',
+        )}
       >
         <div key={0} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
-        {shuffledArtists.length
-          ? shuffledArtists.map((artist, index) => (
-              <div
-                key={index + 1}
-                id={artist.name}
-                className="flex flex-col justify-center items-center shrink-0 bg-red-100 snap-center carousel-item"
-                // onClick={() => setKiordialog(true)}
-              >
-                {/* check if file is video or image/gif */}
-                {!artist.artworkPath.includes('.mp4') ? (
-                  <Image
-                    alt={artist.name}
-                    src={artist.artworkPath}
-                    width={600}
-                    height={600}
-                    className="h-[600px] object-contain w-fit"
-                  />
-                ) : (
-                  <video autoPlay muted src={artist.artworkPath} className="h-[600px] w-atuo object-contain w-fit" />
-                )}
-                {<FrameDialog artist={artist} open={KiorDialog} setOpen={setKiordialog} />}
-              </div>
-            ))
-          : [...Array(artists.length)].map((_, index) => (
-              <div
-                key={index + 1}
-                className="w-[600px] h-[600px] bg-gray-300 animate-pulse shrink-0 blur-sm snap-center"
-              />
-            ))}
+
+        {[...Array(artists.length)].map((_, index) => (
+          <Frame key={index + 1} artist={shuffledArtists[index]} />
+        ))}
+
         <div key={shuffledArtists.length + 1} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm" />
       </div>
     </div>

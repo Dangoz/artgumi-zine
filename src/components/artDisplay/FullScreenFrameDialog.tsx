@@ -1,14 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
 
-type FullscreenImageDialogProps = {
+type FullScreenFrameDialogProps = {
   src: string
   alt: string
   open: boolean
   onClose: () => void
 }
 
-const FullscreenImageDialog: React.FC<FullscreenImageDialogProps> = ({ src, alt, open, onClose }) => {
+const FullScreenFrameDialog: React.FC<FullScreenFrameDialogProps> = ({ src, alt, open, onClose }) => {
   const dialogRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
@@ -29,7 +29,6 @@ const FullscreenImageDialog: React.FC<FullscreenImageDialogProps> = ({ src, alt,
 
   return (
     <div ref={dialogRef} className="fixed inset-0 bg-black flex items-center justify-center" onClick={onClose}>
-      <Image src={src} alt={alt} fill={true} className="max-w-full max-h-full object-contain" />
       {/* check if file is video or image/gif */}
       {!src.includes('.mp4') ? (
         <Image src={src} alt={alt} fill={true} className="max-w-full max-h-full object-contain" />
@@ -40,4 +39,4 @@ const FullscreenImageDialog: React.FC<FullscreenImageDialogProps> = ({ src, alt,
   )
 }
 
-export default FullscreenImageDialog
+export default FullScreenFrameDialog
