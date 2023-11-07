@@ -166,7 +166,6 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
               key={index + 1}
               id={artist.name}
               className="flex flex-col justify-center items-center shrink-0 bg-red-100 snap-center carousel-item"
-              // onClick={() => setKiordialog(true)}
             >
               {/* check if file is video or image/gif */}
               {!artist.artworkPath.includes('.mp4') ? (
@@ -178,7 +177,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
                   className="h-[600px] w-[1000px] object-contain"
                 />
               ) : (
-                <video autoPlay muted src={artist.artworkPath} className="h-[600px] w-[1000px] object-contain" />
+                <video autoPlay muted loop src={artist.artworkPath} className="h-[600px] w-[1000px] object-contain" />
               )}
               {<FrameDialog artist={artist} open={KiorDialog} setOpen={setKiordialog} />}
             </div>
