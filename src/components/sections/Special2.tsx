@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { artists } from '@/models/artists'
 import type { Artist } from '@/models/artists'
 import FrameDialog from '../artDisplay/FrameDialog'
-import { motion, useTransform, useScroll, AnimatePresence } from 'framer-motion'
+import { motion, useScroll } from 'framer-motion'
 import Frame from '../artDisplay/Frame'
 
 type SpecialProps = {
@@ -21,8 +21,6 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     target: carouselWrapperRef,
   })
 
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-95%'])
-
   const [scrollYValue, setScrollValue] = useState<number>(0)
   const [scrollYProgressValue, setScrollProgressValue] = useState<number>(0)
   const [transformProgressValue, setTransformProgressValue] = useState<string>()
@@ -30,8 +28,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
   useEffect(() => {
     scrollY.on('change', (value) => setScrollValue(value))
     scrollYProgress.on('change', (value) => setScrollProgressValue(value))
-    x.on('change', (value) => setTransformProgressValue(value))
-  }, [scrollY, scrollYProgress, x])
+  }, [scrollY, scrollYProgress])
 
   // shuffle artists
   useEffect(() => {
@@ -69,14 +66,15 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
           ref={carouselRef}
           className={clsx(
             'sticky top-0 h-screen overflow-hidden',
-            'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2 snap-x snap-mandatory',
+            // 'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2 snap-x snap-mandatory',
+            'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2',
           )}
           style={{
-            scrollBehavior: 'smooth',
+            scrollBehavior: 'auto',
           }}
         >
-          <div className="flex gap-10">
-            <div key={0} className="w-[1000px] h-[600px] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
+          <div className="flex gap-2">
+            <div key={0} className="h-[80vh] w-[25vw] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
 
             {[...Array(artists.length)].map((_, index) => (
               <Frame
@@ -87,7 +85,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
 
             <div
               key={shuffledArtists.length + 1}
-              className="w-[1000px] h-[600px] bg-none animate-pulse shrink-0 blur-sm"
+              className="h-[80vh] w-[25vw] bg-none animate-pulse shrink-0 blur-sm"
             />
           </div>
         </motion.div>
