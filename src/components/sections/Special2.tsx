@@ -96,10 +96,9 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
         <motion.div
           ref={carouselRef}
           className={clsx(
-            'sticky top-0 h-screen overflow-scroll',
+            'sticky top-0 h-screen overflow-hidden',
             'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2 snap-x snap-mandatory',
           )}
-          // style={{ scrollBehavior: 'smooth' }}
         >
           <div className="flex gap-10">
             <div key={0} className="w-[1000px] h-[600px] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
