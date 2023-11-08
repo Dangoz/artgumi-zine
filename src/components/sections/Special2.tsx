@@ -14,7 +14,6 @@ type SpecialProps = {
 
 const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, noteRef }, ref) => {
   const [shuffledArtists, setShuffledArtists] = useState<Artist[]>([])
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
   const carouselWrapperRef = useRef<HTMLDivElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
 
@@ -53,33 +52,6 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     }
   }, [scrollYProgressValue])
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Assuming each entry.target.id corresponds to artist.name
-            const index = shuffledArtists.findIndex((artist) => artist.name === entry.target.id)
-            console.log('intersecting', entry.target.id, index, shuffledArtists[index])
-            setCurrentCarouselIndex(index)
-          }
-        })
-      },
-      {
-        root: carouselRef.current, // Observe intersections within the carousel
-        threshold: 1, // Configure the observer to trigger when 50% of an item is in view
-      },
-    )
-
-    if (carouselRef.current) {
-      const itemElements = carouselRef.current.querySelectorAll('.carousel-item')
-      itemElements.forEach((element) => observer.observe(element))
-    }
-
-    // Cleanup observer on component unmount
-    return () => observer.disconnect()
-  }, [shuffledArtists])
-
   return (
     <div ref={ref} className={clsx('w-screen h-fit bg-slate-300 text-black', 'flex flex-col justify-center')}>
       <div className="fixed top-0 left-0 z-50 bg-white text-black">
@@ -99,12 +71,18 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
             'sticky top-0 h-screen overflow-hidden',
             'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2 snap-x snap-mandatory',
           )}
+          style={{
+            scrollBehavior: 'smooth',
+          }}
         >
           <div className="flex gap-10">
             <div key={0} className="w-[1000px] h-[600px] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
 
             {[...Array(artists.length)].map((_, index) => (
-              <Frame key={index + 1} artist={shuffledArtists[index]} />
+              <Frame
+                key={shuffledArtists[index] ? shuffledArtists[index].name : index + 1}
+                artist={shuffledArtists[index]}
+              />
             ))}
 
             <div
