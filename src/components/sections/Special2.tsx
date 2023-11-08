@@ -51,13 +51,11 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
 
   return (
     <div ref={ref} className={clsx('w-screen h-fit bg-slate-300 text-black', 'flex flex-col justify-center')}>
-      <div className="fixed top-0 left-0 z-50 bg-white text-black">
+      {/* <div className="fixed top-0 left-0 z-50 bg-white text-black">
         Y: {scrollYValue.toFixed(2)}
         <br />
         Progress%: {scrollYProgressValue}
-        <br />
-        Transform: {transformProgressValue}
-      </div>
+      </div> */}
 
       <div className="bg-black w-screen h-[30vh] text-white">Before</div>
 

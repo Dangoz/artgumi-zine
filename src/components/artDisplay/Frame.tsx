@@ -27,7 +27,7 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
     },
   }
 
-  if (!artist) return <div className="h-[600px] w-[1000px] bg-gray-300 animate-pulse shrink-0 blur-sm snap-center" />
+  if (!artist) return <div className="h-[80vh] w-[50vw] bg-gray-300 animate-pulse shrink-0 blur-sm snap-center" />
 
   return (
     <div
@@ -45,7 +45,7 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
             className="h-auto max-h-[80vh] w-auto max-w-[80vw] rounded cursor-pointer"
             onClick={() => setDialogOpen(true)}
           />
-          <figcaption className="text-black text-start mt-1">{artist.title}</figcaption>
+          <figcaption className="text-black mt-1 text-base md:text-lg">{artist.title}</figcaption>
         </motion.div>
       ) : (
         <motion.div animate={isInView ? variants.inView : variants.notInView} transition={{ duration: 0.5 }}>
@@ -57,7 +57,7 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
             className="h-auto max-h-[80vh] w-auto max-w-[80vw] rounded cursor-pointer"
             onClick={() => setDialogOpen(true)}
           />
-          <figcaption className="text-black">{artist.title}</figcaption>
+          <figcaption className="text-black mt-1 text-base md:text-lg">{artist.title}</figcaption>
         </motion.div>
       )}
       {<FrameDialog artist={artist} open={dialogOpen} setOpen={setDialogOpen} />}

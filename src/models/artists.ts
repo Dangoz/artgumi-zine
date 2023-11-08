@@ -27,7 +27,7 @@ export const artists: Artist[] = [
     metadataUri: 'https://ipfs.pixura.io/ipfs/QmaKByAjdqiaRogsekUeQ5QiDpDEZsttzaGZ65CPwk4Lyd/metadata.json',
   },
   {
-    title: 'Lotus bloom',
+    title: 'Lotus Bloom',
     name: 'Tmoro',
     artworkPath: '/artworks/tomoro.jpg',
     description:
