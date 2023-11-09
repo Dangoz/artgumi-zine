@@ -53,11 +53,13 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
             autoPlay
             muted
             loop
+            playsInline
+            preload="auto"
             src={artist.artworkPath}
             className="h-auto max-h-[80vh] w-auto max-w-[80vw] rounded cursor-pointer"
             onClick={() => setDialogOpen(true)}
           />
-          <figcaption className={clsx('text-slate-500 mt-1 text-base md:text-lg')}>{artist.title}</figcaption>
+          <figcaption className={clsx('text-slate-500 mt-1 text-base md:text-lg')}>{artist.title + ' uwu'}</figcaption>
         </motion.div>
       )}
       {<FrameDialog artist={artist} open={dialogOpen} setOpen={setDialogOpen} />}

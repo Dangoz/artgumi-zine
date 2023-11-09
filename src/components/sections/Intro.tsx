@@ -11,6 +11,7 @@ const Intro = React.forwardRef<HTMLDivElement, IntroProps>(({ sections }, ref) =
   return (
     <div ref={ref} className="relative flex justify-center items-center w-screen h-screen">
       <IntroBackground />
+
       <button className="absolute mb-[250px] mr-[500px] z-20" onClick={() => scrollToSection(sections[0])}>
         <Image alt="note" src="/assets/intro/note-icon.png" width={350} height={350} className="h-auto w-auto" />
       </button>

@@ -5,7 +5,6 @@ import SideNav from '@/components/navigation/SideNav'
 import Intro from '@/components/sections/Intro'
 import Note from '@/components/sections/Note'
 import Special from '@/components/sections/Special'
-import Special2 from '@/components/sections/Special2'
 import Highlight from '@/components/sections/Highlight'
 import Credit from '@/components/sections/Credit'
 
@@ -24,7 +23,7 @@ export default function Home() {
       <Intro ref={introRef} sections={[noteRef, specialRef, highlightRef, creditRef]} />
 
       <Note ref={noteRef} />
-      <Special2 ref={specialRef} introRef={introRef} noteRef={noteRef} />
+      <Special ref={specialRef} introRef={introRef} noteRef={noteRef} />
       <Highlight ref={highlightRef} />
       <Credit ref={creditRef} />
     </div>

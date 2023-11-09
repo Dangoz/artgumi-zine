@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { artists } from '@/models/artists'
 import type { Artist } from '@/models/artists'
 import FrameDialog from '../artDisplay/FrameDialog'
-import { motion } from 'framer-motion'
+import { motion, useScroll } from 'framer-motion'
 import Frame from '../artDisplay/Frame'
 
 type SpecialProps = {
@@ -13,14 +13,22 @@ type SpecialProps = {
 }
 
 const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, noteRef }, ref) => {
-  const [KiorDialog, setKiordialog] = useState<boolean>(false)
-
   const [shuffledArtists, setShuffledArtists] = useState<Artist[]>([])
-  const [carouselCenteredHeight, setCarouselCenteredHeight] = useState<number>(0)
-  const [isCarouselActive, setIsCarouselActive] = useState<boolean>(false)
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState<number>(0)
-  const [carouselIndexAnchor, setCarouselIndexAnchor] = useState<number>(4)
+  const carouselWrapperRef = useRef<HTMLDivElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
+
+  const { scrollY, scrollYProgress } = useScroll({
+    target: carouselWrapperRef,
+  })
+
+  const [scrollYValue, setScrollValue] = useState<number>(0)
+  const [scrollYProgressValue, setScrollProgressValue] = useState<number>(0)
+  const [transformProgressValue, setTransformProgressValue] = useState<string>()
+
+  useEffect(() => {
+    scrollY.on('change', (value) => setScrollValue(value))
+    scrollYProgress.on('change', (value) => setScrollProgressValue(value))
+  }, [scrollY, scrollYProgress])
 
   // shuffle artists
   useEffect(() => {
@@ -32,141 +40,56 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
     setShuffledArtists(artistsCopy)
   }, [])
 
-  // calculate the centered height of the carousel
-  // useEffect(() => {
-  //   if (!introRef.current || !noteRef.current || !carouselRef.current) return
-
-  //   // get the height of intro & note components
-  //   const introHeight = introRef.current.clientHeight
-  //   const noteHeight = noteRef.current.clientHeight
-
-  //   console.log(`intro height: ${introHeight}`)
-  //   console.log(`note height: ${noteHeight}`)
-
-  //   // get the median height of carousel
-  //   const carouselHeight = carouselRef.current.clientHeight
-  //   console.log(`carousel height: ${carouselHeight}`)
-
-  //   // browser window height
-  //   const windowHeight = window.innerHeight
-  //   console.log(`window height: ${windowHeight}`)
-
-  //   // offset that puts the carousel in the middle of the screen
-  //   const offset = (1000 - windowHeight) / 2
-  //   console.log(`offset: ${offset}`)
-
-  //   const carouselCenteredHeight = introHeight + noteHeight + offset
-  //   console.log(`carousel centered height: ${carouselCenteredHeight}`)
-  //   setCarouselCenteredHeight(carouselCenteredHeight)
-
-  //   // window.scrollTo({ top: carouselCenteredHeight, behavior: 'smooth' })
-  // }, [introRef, noteRef])
-
-  // when user scrolls to center of carousel, disable default scroll behavior and activate carousel scroll
-  // useEffect(() => {
-  //   if (carouselCenteredHeight === 0) return
-
-  //   const handleScroll = (event: WheelEvent) => {
-  //     if (
-  //       (window.scrollY > carouselCenteredHeight && currentCarouselIndex === 0 && carouselIndexAnchor === 4) ||
-  //       (window.scrollY < carouselCenteredHeight && currentCarouselIndex === 4 && carouselIndexAnchor === 0)
-  //     ) {
-  //       // console.log('REACHEEED', window.scrollY, window.scrollX)
-
-  //       // disable default scroll behavior
-  //       document.body.style.overflow = 'hidden'
-
-  //       // check and activate carousel state
-  //       if (!isCarouselActive) {
-  //         setIsCarouselActive(true)
-
-  //         // stick window to the center of the carousel
-  //         window.scrollTo({ top: carouselCenteredHeight, behavior: 'instant' })
-  //       }
-
-  //       // scroll the carousel horizontally as wheels respond to vertical scroll
-  //       if (carouselRef.current) {
-  //         carouselRef.current.children[currentCarouselIndex].scrollIntoView({
-  //           behavior: 'smooth',
-  //           block: 'center',
-
-  //           inline: 'center',
-  //         })
-  //       }
-  //     }
-  //   }
-
-  //   window.addEventListener('wheel', handleScroll, { passive: false })
-
-  //   // Cleanup event listener on component unmount
-  //   return () => window.removeEventListener('wheel', handleScroll)
-  // }, [carouselCenteredHeight, isCarouselActive, carouselIndexAnchor, currentCarouselIndex])
-
+  // scroll carousel horizontally as scroll-Y-Progresses
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Assuming each entry.target.id corresponds to artist.name
-            const index = shuffledArtists.findIndex((artist) => artist.name === entry.target.id)
-            console.log('intersecting', entry.target.id, index, shuffledArtists[index])
-            setCurrentCarouselIndex(index)
-          }
-        })
-      },
-      {
-        root: carouselRef.current, // Observe intersections within the carousel
-        threshold: 1, // Configure the observer to trigger when 50% of an item is in view
-      },
-    )
-
     if (carouselRef.current) {
-      const itemElements = carouselRef.current.querySelectorAll('.carousel-item')
-      itemElements.forEach((element) => observer.observe(element))
+      const maxScrollLeft = carouselRef.current.scrollWidth - carouselRef.current.clientWidth
+      const scrollLeft = maxScrollLeft * scrollYProgressValue
+      carouselRef.current.scrollLeft = scrollLeft
     }
-
-    // Cleanup observer on component unmount
-    return () => observer.disconnect()
-  }, [shuffledArtists])
-
-  // useEffect(() => {
-  //   // when anchor is on the last item and user scrolls to the last item
-  //   if (carouselIndexAnchor === artists.length - 1 && currentCarouselIndex === artists.length - 1) {
-  //     // release default scroll behavior
-  //     document.body.style.overflow = ''
-
-  //     // set anchor to the first item
-  //     setCarouselIndexAnchor(0)
-  //   }
-
-  //   // when anchor is on the first item and user scrolls to the first item
-  //   if (carouselIndexAnchor === 0 && currentCarouselIndex === 0) {
-  //     // release default scroll behavior
-  //     document.body.style.overflow = ''
-
-  //     // set anchor to the last item
-  //     setCarouselIndexAnchor(artists.length - 1)
-  //   }
-
-  //   // when anchor is on the last item and user
-  // }, [currentCarouselIndex, carouselIndexAnchor, shuffledArtists])
+  }, [scrollYProgressValue])
 
   return (
-    <div ref={ref} className={clsx('w-screen h-[1000px] bg-slate-300 text-black', 'flex flex-col justify-center')}>
-      <div
-        ref={carouselRef}
-        className={clsx(
-          'relative bg-slate-100 gap-10 pt-10 pb-10 flex flex-nowrap items-center overflow-scroll p-2 snap-x snap-mandatory',
-        )}
-      >
-        <div key={0} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
+    <div ref={ref} className={clsx('w-screen h-fit bg-slate-300 text-black', 'flex flex-col justify-center')}>
+      {/* <div className="fixed top-0 left-0 z-50 bg-white text-black">
+        Y: {scrollYValue.toFixed(2)}
+        <br />
+        Progress%: {scrollYProgressValue}
+      </div> */}
 
-        {[...Array(artists.length)].map((_, index) => (
-          <Frame key={index + 1} artist={shuffledArtists[index]} />
-        ))}
+      <div className="bg-black w-screen h-[30vh] text-white">Before</div>
 
-        <div key={shuffledArtists.length + 1} className="w-[600px] h-[600px] bg-none animate-pulse shrink-0 blur-sm" />
+      <div ref={carouselWrapperRef} className="relative bg-pink-200 h-[300vh]">
+        <motion.div
+          ref={carouselRef}
+          className={clsx(
+            'sticky top-0 h-screen overflow-hidden',
+            // 'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2 snap-x snap-mandatory',
+            'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2',
+          )}
+          style={{
+            scrollBehavior: 'auto',
+          }}
+        >
+          <div className="flex gap-2">
+            <div key={0} className="h-[80vh] w-[25vw] bg-none animate-pulse shrink-0 blur-sm cursor-pointer" />
+
+            {[...Array(artists.length)].map((_, index) => (
+              <Frame
+                key={shuffledArtists[index] ? shuffledArtists[index].name : index + 1}
+                artist={shuffledArtists[index]}
+              />
+            ))}
+
+            <div
+              key={shuffledArtists.length + 1}
+              className="h-[80vh] w-[25vw] bg-none animate-pulse shrink-0 blur-sm"
+            />
+          </div>
+        </motion.div>
       </div>
+
+      <div className="bg-black w-screen h-[30vh] text-white">After</div>
     </div>
   )
 })
