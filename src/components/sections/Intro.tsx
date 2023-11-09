@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { scrollToSection } from '@/lib/util'
 import IntroBackground from '@/components/background/IntroBackground'
+import clsx from 'clsx'
 
 type IntroProps = {
   sections: React.RefObject<HTMLDivElement>[]
@@ -13,31 +14,45 @@ const Intro = React.forwardRef<HTMLDivElement, IntroProps>(({ sections }, ref) =
       <IntroBackground />
 
       {/* intro content */}
-      <div className="relative flex justify-center items-center bg-blue-200 p-[10vw]">
-        <button className="absolute z-10 top-0 left-0" onClick={() => scrollToSection(sections[0])}>
+      <div className="relative flex justify-center items-center bg-none-200 p-20 md:p-36 lg:p-48">
+        <div
+          className={clsx(
+            'absolute z-10 top-0 left-0 bg-none-300/30',
+            'w-28 h-28',
+            'md:w-40 md:h-40',
+            'lg:w-52 lg:h-52',
+          )}
+        >
           <Image
             alt="note"
             src="/assets/intro/note-icon.png"
-            width={200}
-            height={200}
-            className="h-auto w-auto"
+            fill
+            className={clsx('h-auto w-auto cursor-pointer object-contain', 'mt-0 ml-0')}
             sizes="100vw"
+            onClick={() => scrollToSection(sections[0])}
           />
-        </button>
+        </div>
 
-        <button className="absolute z-10 top-0 right-0" onClick={() => scrollToSection(sections[1])}>
+        <div
+          className={clsx(
+            'absolute z-10 top-0 right-0 bg-none-300/30',
+            'w-28 h-28',
+            'md:w-40 md:h-40',
+            'lg:w-52 lg:h-52',
+          )}
+        >
           <Image
             alt="special"
             src="/assets/intro/special-icon.png"
-            width={200}
-            height={200}
-            className="h-auto w-auto"
+            fill
+            className={clsx('h-auto w-auto cursor-pointer object-contain', 'mt-0 ml-0')}
             sizes="100vw"
+            onClick={() => scrollToSection(sections[1])}
           />
-        </button>
+        </div>
 
         {/* title */}
-        <div className="relative p-2 flex justify-center items-center bg-red-300">
+        <div className="relative p-2 flex justify-center items-center bg-none-300">
           <Image
             alt="logo"
             src="/assets/intro/title.png"
@@ -59,27 +74,41 @@ const Intro = React.forwardRef<HTMLDivElement, IntroProps>(({ sections }, ref) =
           </div>
         </div>
 
-        <button className="absolute bottom-0 left-0 z-10" onClick={() => scrollToSection(sections[2])}>
+        <div
+          className={clsx(
+            'absolute z-10 bottom-0 left-0 bg-none-300/30',
+            'w-28 h-28',
+            'md:w-40 md:h-40',
+            'lg:w-52 lg:h-52',
+          )}
+        >
           <Image
             alt="highlight"
             src="/assets/intro/highlight-icon.png"
-            width={200}
-            height={200}
-            className="h-auto w-auto"
+            fill
+            className={clsx('h-auto w-auto cursor-pointer object-contain', 'mt-0 ml-0')}
             sizes="100vw"
+            onClick={() => scrollToSection(sections[2])}
           />
-        </button>
+        </div>
 
-        <button className="absolute bottom-0 right-0 z-10" onClick={() => scrollToSection(sections[3])}>
+        <div
+          className={clsx(
+            'absolute z-10 bottom-0 right-0 bg-none-300/30',
+            'w-28 h-28',
+            'md:w-40 md:h-40',
+            'lg:w-52 lg:h-52',
+          )}
+        >
           <Image
             alt="credit"
             src="/assets/intro/credit-icon.png"
-            width={200}
-            height={200}
-            className="h-auto w-auto"
+            fill
+            className={clsx('h-auto w-auto cursor-pointer object-contain', 'mt-0 ml-0')}
             sizes="100vw"
+            onClick={() => scrollToSection(sections[3])}
           />
-        </button>
+        </div>
       </div>
     </div>
   )
