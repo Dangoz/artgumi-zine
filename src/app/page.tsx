@@ -7,6 +7,8 @@ import Note from '@/components/sections/Note'
 import Special from '@/components/sections/Special'
 import Highlight from '@/components/sections/Highlight'
 import Credit from '@/components/sections/Credit'
+import SparkleBackgroundAnimation from '@/components/background/SparkleBackgroundAnimation'
+import CloudBackgroundAnimation from '@/components/background/CloudBackgroundAnimation'
 
 export default function Home() {
   const introRef = useRef<HTMLDivElement>(null)
@@ -17,6 +19,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
+      <SparkleBackgroundAnimation />
+      <CloudBackgroundAnimation />
       {/* side navigatin */}
       <SideNav sections={[noteRef, specialRef, highlightRef, creditRef]} />
 

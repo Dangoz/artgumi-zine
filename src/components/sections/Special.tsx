@@ -59,7 +59,7 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
 
       <div className="bg-black w-screen h-[30vh] text-white">Before</div>
 
-      <div ref={carouselWrapperRef} className="relative bg-pink-200 h-[300vh]">
+      <div ref={carouselWrapperRef} className="relative bg-pink-200 h-[300vh] z-40">
         <motion.div
           ref={carouselRef}
           className={clsx(
