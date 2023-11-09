@@ -41,11 +41,11 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
             alt={artist.name}
             src={artist.artworkPath}
             width={1000}
-            height={600}
+            height={1000}
             className="h-auto max-h-[80vh] w-auto max-w-[80vw] rounded cursor-pointer"
             onClick={() => setDialogOpen(true)}
           />
-          <figcaption className="text-black mt-1 text-base md:text-lg">{artist.title}</figcaption>
+          <figcaption className={clsx('text-slate-500 mt-1 text-base md:text-lg')}>{artist.title}</figcaption>
         </motion.div>
       ) : (
         <motion.div animate={isInView ? variants.inView : variants.notInView} transition={{ duration: 0.5 }}>
@@ -57,7 +57,7 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
             className="h-auto max-h-[80vh] w-auto max-w-[80vw] rounded cursor-pointer"
             onClick={() => setDialogOpen(true)}
           />
-          <figcaption className="text-black mt-1 text-base md:text-lg">{artist.title}</figcaption>
+          <figcaption className={clsx('text-slate-500 mt-1 text-base md:text-lg')}>{artist.title}</figcaption>
         </motion.div>
       )}
       {<FrameDialog artist={artist} open={dialogOpen} setOpen={setDialogOpen} />}
