@@ -12,7 +12,7 @@ type FrameProps = {
 const Frame: React.FC<FrameProps> = ({ artist }) => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false)
   const frameRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(frameRef, { amount: 1 })
+  const isInView = useInView(frameRef, { amount: 0.9 })
 
   const variants: {
     inView: AnimationControls | TargetAndTransition | VariantLabels
@@ -59,7 +59,7 @@ const Frame: React.FC<FrameProps> = ({ artist }) => {
             className="h-auto max-h-[80vh] w-auto max-w-[80vw] rounded cursor-pointer"
             onClick={() => setDialogOpen(true)}
           />
-          <figcaption className={clsx('text-slate-500 mt-1 text-base md:text-lg')}>{artist.title + ' uwu'}</figcaption>
+          <figcaption className={clsx('text-slate-500 mt-1 text-base md:text-lg')}>{artist.title}</figcaption>
         </motion.div>
       )}
       {<FrameDialog artist={artist} open={dialogOpen} setOpen={setDialogOpen} />}

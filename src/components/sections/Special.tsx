@@ -64,8 +64,8 @@ const Special = React.forwardRef<HTMLDivElement, SpecialProps>(({ introRef, note
           ref={carouselRef}
           className={clsx(
             'sticky top-0 h-screen overflow-hidden',
-            // 'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2 snap-x snap-mandatory',
-            'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2',
+            'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2 snap-x snap-mandatory',
+            // 'bg-slate-100 pt-10 pb-10 flex flex-nowrap items-center p-2',
           )}
           style={{
             scrollBehavior: 'auto',

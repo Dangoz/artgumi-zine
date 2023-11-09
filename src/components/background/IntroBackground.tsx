@@ -8,10 +8,8 @@ const IntroBackground = () => {
         alt="intro background"
         src="/assets/intro/intro-background.png"
         priority
-        layout="fill"
-        objectFit="cover"
-        objectPosition="center"
-        className="h-full w-full -z-50"
+        fill
+        className="h-full w-full -z-50 object-fill object-center"
       />
     </div>
   )
