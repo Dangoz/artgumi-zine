@@ -27,7 +27,7 @@ const SideNav = ({ sections }: SideNavProps) => {
         })
       },
       {
-        threshold: 0.5, // Configure observer to trigger when 50% of element is in view
+        threshold: 0.2, // TODO: refactor to use farmer motion useInView, observe each section with different thresholds
       },
     )
 
