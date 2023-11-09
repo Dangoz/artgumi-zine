@@ -1,6 +1,6 @@
 // intro section bounce animations through framer motion
 
-const speed = 2
+const speed = 3
 
 export const bounceTopLeft = {
   scale: [1, 1.1, 1],

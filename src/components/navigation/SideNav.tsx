@@ -44,39 +44,48 @@ const SideNav = ({ sections }: SideNavProps) => {
     // fixed side nav for transitioning between sections
     <div
       className={clsx(
-        'fixed left-1 top-1/2 rounded-2xl pt-1 pb-1 backdrop-blur-sm backdrop-filter',
-        'border-black/50 border-[1px] z-50',
-        'flex flex-col justify-evenly items-center gap-1.5 bg-black/60',
+        'fixed z-50 bg-gray-300',
+        'w-screen md:w-0 md:ml-4 md:h-screen bottom-6',
+        'flex justify-center items-center',
       )}
     >
-      <ScrollText
+      <div
         className={clsx(
-          'w-6 h-6 p-1 cursor-pointer rounded-full',
-          activeSection === 0 ? 'text-white/100' : 'text-white/50',
+          'fixed pr-1 pl-1 md:pr-0 md:pl-0 md:pt-1 md:pb-1',
+          'border-black/50 border-[1px]',
+          'flex flex-row md:flex-col justify-evenly items-center gap-1.5 bg-black/60',
+          'backdrop-blur-sm backdrop-filter rounded-2xl',
         )}
-        onClick={() => scrollToSection(sections[0])}
-      />
-      <Flower
-        className={clsx(
-          'w-6 h-6 p-1 cursor-pointer rounded-full',
-          activeSection === 1 ? 'text-white/100' : 'text-white/50',
-        )}
-        onClick={() => scrollToSection(sections[1])}
-      />
-      <Sparkles
-        className={clsx(
-          'w-6 h-6 p-1 cursor-pointer rounded-full',
-          activeSection === 2 ? 'text-white/100' : 'text-white/50',
-        )}
-        onClick={() => scrollToSection(sections[2])}
-      />
-      <Cat
-        className={clsx(
-          'w-6 h-6 p-1 cursor-pointer rounded-full',
-          activeSection === 3 ? 'text-white/100' : 'text-white/50',
-        )}
-        onClick={() => scrollToSection(sections[3])}
-      />
+      >
+        <ScrollText
+          className={clsx(
+            'w-6 h-6 p-1 cursor-pointer rounded-full',
+            activeSection === 0 ? 'text-white/100' : 'text-white/50',
+          )}
+          onClick={() => scrollToSection(sections[0])}
+        />
+        <Flower
+          className={clsx(
+            'w-6 h-6 p-1 cursor-pointer rounded-full',
+            activeSection === 1 ? 'text-white/100' : 'text-white/50',
+          )}
+          onClick={() => scrollToSection(sections[1])}
+        />
+        <Sparkles
+          className={clsx(
+            'w-6 h-6 p-1 cursor-pointer rounded-full',
+            activeSection === 2 ? 'text-white/100' : 'text-white/50',
+          )}
+          onClick={() => scrollToSection(sections[2])}
+        />
+        <Cat
+          className={clsx(
+            'w-6 h-6 p-1 cursor-pointer rounded-full',
+            activeSection === 3 ? 'text-white/100' : 'text-white/50',
+          )}
+          onClick={() => scrollToSection(sections[3])}
+        />
+      </div>
     </div>
   )
 }
