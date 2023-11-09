@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { scrollToSection } from '@/lib/util'
+import IntroBackground from '@/components/background/IntroBackground'
 
 type IntroProps = {
   sections: React.RefObject<HTMLDivElement>[]
@@ -8,10 +9,8 @@ type IntroProps = {
 
 const Intro = React.forwardRef<HTMLDivElement, IntroProps>(({ sections }, ref) => {
   return (
-    <div
-      ref={ref}
-      className="relative flex justify-center items-center w-screen h-screen bg-[url('/assets/intro/intro-background.png')] bg-no-repeat bg-cover"
-    >
+    <div ref={ref} className="relative flex justify-center items-center w-screen h-screen">
+      <IntroBackground />
       <button className="absolute mb-[250px] mr-[500px] z-20" onClick={() => scrollToSection(sections[0])}>
         <Image alt="note" src="/assets/intro/note-icon.png" width={350} height={350} className="h-auto w-auto" />
       </button>
